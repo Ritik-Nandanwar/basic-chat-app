@@ -12,21 +12,24 @@ function App() {
       console.log("Connected to ", socket.id);
       setSocketId(socket.id);
     });
-    socket.on("send-message", (data) => {
-      setAllMessages((allMessages) => [...allMessages, data]);
+    socket.on("send-message", (message) => {
+      setAllMessages((allMessages) => [...allMessages, message]);
     });
-    socket.on("send-message", ({ data }) => {
-      console.log(data);
-    });
+    // socket.on("send-message", ({ data }) => {
+    //   console.log(data);
+    // });
     socket.on("user-joined-room", (data) => {
       console.log(data);
     });
     return () => socket.disconnect();
   }, []);
   const clickHandler = (e) => {
+    if (!roomId) {
+      window.alert("Join a room");
+    }
     e.preventDefault();
     socket.emit("clickclack", "ciiieie");
-    socket.emit("receive-message", message);
+    socket.emit("receive-message", { message, roomId });
   };
   const handleChange = (e) => {
     console.log(message);

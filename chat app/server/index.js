@@ -22,9 +22,9 @@ io.on("connection", (socket) => {
   socket.on("clickclack", (p) => {
     console.log(p);
   });
-  socket.on("receive-message", (data) => {
-    console.log(data);
-    socket.broadcast.emit("send-message", data);
+  socket.on("receive-message", ({ message, roomId }) => {
+    console.log(message);
+    socket.to(roomId).emit("send-message", message);
   });
   socket.on("join-room", ({ socketId, roomId }) => {
     socket.join(roomId);
