@@ -1,14 +1,18 @@
+//Imports
 const app = require("express")();
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const server = require("http").createServer(app);
 
 //Middlewares
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//Initiate socket connection
+//Constants
+const PORT = 8080;
+
+//Socket stuff
+const server = require("http").createServer(app);
 const io = require("socket.io")(server, {
   cors: {
     origin: "*",
@@ -16,29 +20,25 @@ const io = require("socket.io")(server, {
     credentials: true,
   },
 });
-
 io.on("connection", (socket) => {
-  console.log("new conn ,", socket.id);
-  socket.on("clickclack", (p) => {
-    console.log(p);
+  console.log("New Connections");
+  socket.on("join-room", (data) => {
+    console.log(data);
+    socket.join(data.roomId);
+    socket.to(data.roomId).emit("joined-room", data.email);
   });
-  socket.on("receive-message", ({ message, roomId }) => {
-    console.log(message);
-    socket.to(roomId).emit("send-message", message);
+  socket.on("send-message", (data) => {
+    console.log(data);
+    socket.emit("receive-message", data);
   });
-  socket.on("join-room", ({ socketId, roomId }) => {
-    socket.join(roomId);
-    socket
-      .to(roomId)
-      .emit("user-joined-room", `a new user joined the room ${socketId}`);
-  });
+});
+
+//Initialize the server
+server.listen(8080, () => {
+  console.log(`listening on ${PORT}`);
 });
 
 //Routes
 app.get("/", (req, res) => {
-  res.send({ message: "Hello world" });
-});
-//Listening on port 8080
-server.listen(8080, () => {
-  console.log("LISTENING");
+  res.send({ message: "Hello from the homepage of the backend" });
 });
