@@ -10,6 +10,7 @@ const JoinRoom = () => {
   const { email, setEmail } = useContext(messageContext);
   const { userName, setUserName } = useContext(messageContext);
   const { showChatInput, setShowChatInput } = useContext(messageContext);
+  var { currentUser, setCurrentUser } = useContext(messageContext);
   //   console.log(.connected);
 
   const navigate = useNavigate();
@@ -38,6 +39,8 @@ const JoinRoom = () => {
     };
     socketRef.emit("join-room", userToJoinRoom);
     setShowChatInput(true);
+    setCurrentUser(userName);
+    localStorage.setItem("currentUserName", userName);
     // navigate("/chat");
   };
   const handleEmail = (e) => {

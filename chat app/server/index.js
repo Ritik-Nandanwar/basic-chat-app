@@ -29,7 +29,7 @@ io.on("connection", (socket) => {
   });
   socket.on("send-message", (data) => {
     console.log("received data ", data);
-    socket.to(data.roomId).emit("receive-message", data);
+    io.to(data.roomId).emit("receive-message", data);
   });
 });
 
