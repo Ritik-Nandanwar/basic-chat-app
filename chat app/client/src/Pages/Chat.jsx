@@ -2,10 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import socketRef from "../socket/Socket";
 import Messages from "../Components/Messages";
 import { messageContext } from "../Context/MessageContext";
+
 const Chat = ({ userName, email, roomId }) => {
   const [message, setMessage] = useState("");
-  const [allMessages, setAllMessages] = useState([]);
   var { counter, setCounter } = useContext(messageContext);
+  const { allMessages, setAllMessages } = useContext(messageContext);
 
   console.log(counter);
   const handleCount = () => {

@@ -1,14 +1,15 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 // import { io } from "socket.io-client";
 import socketRef from "../socket/Socket";
 import Chat from "./Chat";
+import { messageContext } from "../Context/MessageContext";
 const JoinRoom = () => {
   //   const socket = useMemo(() => io("http://localhost:8080"), []);
-  const [roomId, setRoomId] = useState("");
-  const [email, setEmail] = useState("user@test.com");
-  const [userName, setUserName] = useState("not_unknown");
-  const [showChatInput, setShowChatInput] = useState(false);
+  const { roomId, setRoomId } = useContext(messageContext);
+  const { email, setEmail } = useContext(messageContext);
+  const { userName, setUserName } = useContext(messageContext);
+  const { showChatInput, setShowChatInput } = useContext(messageContext);
   //   console.log(.connected);
 
   const navigate = useNavigate();
