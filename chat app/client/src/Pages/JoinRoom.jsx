@@ -51,7 +51,7 @@ const JoinRoom = () => {
   return (
     <>
       {showChatInput ? (
-        <Chat userName={userName} email={email} />
+        <Chat userName={userName} email={email} roomId={roomId} />
       ) : (
         <div className="h-screen flex justify-center items-center">
           <form action="" className="flex flex-col">

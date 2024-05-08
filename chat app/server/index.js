@@ -28,8 +28,8 @@ io.on("connection", (socket) => {
     socket.to(data.roomId).emit("joined-room", data.email);
   });
   socket.on("send-message", (data) => {
-    console.log(data);
-    socket.emit("receive-message", data);
+    console.log("received data ", data);
+    socket.to(data.roomId).emit("receive-message", data);
   });
 });
 

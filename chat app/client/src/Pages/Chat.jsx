@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import socketRef from "../socket/Socket";
-const Chat = ({ userName, email }) => {
+const Chat = ({ userName, email, roomId }) => {
   const [message, setMessage] = useState("");
   const [allMessages, setAllMessages] = useState([]);
   const handleSendMessage = (e) => {
     e.preventDefault();
     console.log(message);
-    socketRef.emit("send-message", { message, userName, email });
-    setAllMessages(() => [...allMessages, message]);
+    socketRef.emit("send-message", { message, userName, email, roomId });
+    // setAllMessages(() => [...allMessages, message]);
   };
   useEffect(() => {
-    socketRef.on("receive-message", (data) =>
-      console.log("from message sent ", data)
-    );
+    socketRef.on("receive-message", (data) => {
+      console.log("from message sent ", data);
+      setAllMessages(() => [...allMessages, data.message]);
+    });
   }, []);
   return (
     <>
