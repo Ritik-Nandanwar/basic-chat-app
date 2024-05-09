@@ -21,9 +21,9 @@ const Messages = () => {
   return (
     <>
       {allMessages.map((msg) => (
-        <h1
+        <div
           key={Math.random() * 10000}
-          className="p-2 bg-slate-700 my-2 text-white text-end"
+          className="p-2  bg-slate-700 my-2 text-white text-end"
           style={{
             textAlign:
               localStorage.getItem("currentUserName") === msg.userName
@@ -31,8 +31,11 @@ const Messages = () => {
                 : "start",
           }}
         >
-          {msg.message}
-        </h1>
+          <p className="text-slate-400">
+            {currentUser == msg.userName ? "you" : msg.userName} :{" "}
+            <span className="text-white">{msg.message}</span>
+          </p>
+        </div>
       ))}
     </>
   );

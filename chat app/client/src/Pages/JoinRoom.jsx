@@ -25,23 +25,29 @@ const JoinRoom = () => {
     });
     return () => {
       socketRef.disconnect();
+      localStorage.removeItem("currentUserName");
     };
   }, []);
   const handleJoinRoom = (e) => {
-    e.preventDefault();
-    console.log("Ddd");
-    console.log(roomId, " ", email, " ", userName);
-    var userToJoinRoom = {
-      roomId,
-      email,
-      userName,
-      socketId: socketRef.id,
-    };
-    socketRef.emit("join-room", userToJoinRoom);
-    setShowChatInput(true);
-    setCurrentUser(userName);
-    localStorage.setItem("currentUserName", userName);
-    // navigate("/chat");
+    if (roomId == "" || email == "" || userName == "") {
+      window.alert("Fill out all the fields");
+      e.preventDefault();
+    } else {
+      e.preventDefault();
+      console.log("Ddd");
+      console.log(roomId, " ", email, " ", userName);
+      var userToJoinRoom = {
+        roomId,
+        email,
+        userName,
+        socketId: socketRef.id,
+      };
+      socketRef.emit("join-room", userToJoinRoom);
+      setShowChatInput(true);
+      setCurrentUser(userName);
+      localStorage.setItem("currentUserName", userName);
+      // navigate("/chat");
+    }
   };
   const handleEmail = (e) => {
     setEmail(e.target.value);
